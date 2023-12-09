@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+name: "Terraform Apply"
+description: "ApplyをCIで実行する"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Set up Google Cloud
+        run: |
+          echo "$GOOGLE_CREDENTIALS" > gcloud.json
+          gcloud auth activate-service-account --key-file=gcloud.json
+
+      - name: Terraform Init
+        run: terraform init -backend-config="bucket=${TF_VAR_bucket_name}"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
