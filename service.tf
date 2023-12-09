@@ -6,7 +6,6 @@ variable "services" {
     "iam.googleapis.com",
     "servicecontrol.googleapis.com",
     "compute.googleapis.com",
-    "gkebackup.googleapis.com",
   ]
 }
 
