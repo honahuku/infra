@@ -1,11 +1,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-action.json
-name: "Terraform"
-description: "TerraformをCIで実行する"
+name: "Terraform Plan"
+description: "PlanをCIで実行する"
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
 
 jobs:
   terraform:
@@ -31,7 +30,3 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
