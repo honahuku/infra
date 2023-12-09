@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: "Terraform Apply"
-description: "ApplyをCIで実行する"
+
 on:
   push:
     branches:
@@ -19,6 +19,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.6.4"
 
       - name: Set up Google Cloud
         run: |
