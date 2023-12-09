@@ -1,10 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: "Terraform Plan"
 description: "PlanをCIで実行する"
+
 on:
-  pull_request:
-    branches:
-      - main
+  push
 
 jobs:
   terraform:
