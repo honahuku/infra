@@ -74,7 +74,7 @@ jobs:
       - name: env set
         run: |
           echo $PR_NUMBER
-          exit 1
+          exit 2
 
       - name: Checkout
         uses: actions/checkout@v2
