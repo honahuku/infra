@@ -1,11 +1,8 @@
-name: 'Setup Terraform'
-description: 'Checkout and set up Terraform'
+name: "Setup Terraform"
+description: "Checkout and set up Terraform"
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:

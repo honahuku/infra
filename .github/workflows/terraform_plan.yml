@@ -12,13 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: aquaproj/aqua-installer@v2.2.0
-        with:
-          aqua_version: v2.16.4
-
-      - name: Setup aqua tools
-        run: |
-          aqua i -l
+      - name: Setup aqua
+        uses: ./.github/actions/aqua_setup
 
       - name: tflint
         run: |
@@ -28,8 +23,12 @@ jobs:
   trivy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Setup aqua
         uses: ./.github/actions/aqua_setup
+
       - name: trivy
         run: |
           trivy config ./
@@ -43,7 +42,11 @@ jobs:
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
-      # - uses: .github/workflows/terraform_init.yml
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup aqua
+        uses: ./.github/actions/terraform_init
 
       - name: Terraform fmt
         run: terraform fmt
@@ -57,7 +60,11 @@ jobs:
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
-      # - uses: .github/workflows/terraform_init.yml
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup aqua
+        uses: ./.github/actions/terraform_init
 
       - name: Terraform Plan
         run: terraform plan
