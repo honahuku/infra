@@ -72,13 +72,9 @@ jobs:
 
       - name: Set tfcmt env
         run: |
-          OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
-          REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
           if [ -z "${{ github.event.pull_request.number }}" ]; then
             echo "PR_NUMBER=5" >> $GITHUB_ENV
-          else
-            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
           fi
 
       - name: Terraform Plan
-        run: tfcmt -owner "$OWNER" -repo "$REPO" -pr "$PR_NUMBER" plan -- terraform plan
+        run: tfcmt plan -- terraform plan
