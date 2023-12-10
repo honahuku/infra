@@ -12,6 +12,7 @@ jobs:
     env:
       GCP_SA: ${{ secrets.GCP_SA }}
       BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
+      TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
       - name: Checkout
