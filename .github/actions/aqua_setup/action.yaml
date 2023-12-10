@@ -1,0 +1,12 @@
+name: "Setup aqua"
+description: "Checkout and set up aqua"
+runs:
+  using: "composite"
+  steps:
+    - uses: aquaproj/aqua-installer@v2.2.0
+      with:
+        aqua_version: v2.16.4
+
+    - name: Setup aqua tools
+      run: aqua i -l
+      shell: bash

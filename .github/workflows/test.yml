@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+name: "test"
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup aqua
+        uses: ./.github/actions/aqua_setup
+
+      - name: tflint
+        run: |
+          tflint --init
+          tflint
+
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup aqua
+        uses: ./.github/actions/aqua_setup
+
+      - name: trivy
+        run: |
+          trivy config ./
+
+  fmt:
+    runs-on: ubuntu-latest
+
+    env:
+      GCP_SA: ${{ secrets.GCP_SA }}
+      BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
+      TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: ./.github/actions/terraform_init
+
+      - name: Terraform fmt
+        run: terraform fmt
+
+  plan:
+    runs-on: ubuntu-latest
+
+    env:
+      GCP_SA: ${{ secrets.GCP_SA }}
+      GITHUB_TOKEN: ${{ secrets.TFCMT_GITHUB_TOKEN }}
+      BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
+      TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: ./.github/actions/terraform_init
+
+      - name: Minimize resolved terraform notifications
+        run: github-comment hide
+
+      - name: Set tfcmt env
+        run: |
+          if [ -z "${{ github.event.pull_request.number }}" ]; then
+            echo "PR_NUMBER=5" >> $GITHUB_ENV
+          fi
+
+      - name: Terraform Plan
+        run: tfcmt plan -- terraform plan
