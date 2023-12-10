@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+name: "deploy"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+
+    env:
+      GCP_SA: ${{ secrets.GCP_SA }}
+      BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
+      TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup aqua
+        uses: ./.github/actions/terraform_init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
