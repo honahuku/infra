@@ -2,5 +2,5 @@
 ## init
 ```bash
 terraform init \
--backend-config="bucket=${TF_VAR_bucket_name}"
+-backend-config="bucket=${TF_VAR_BUCKET_NAME}"
 ```
