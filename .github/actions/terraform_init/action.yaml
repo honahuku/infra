@@ -3,20 +3,12 @@ description: "Checkout and set up Terraform"
 runs:
   using: "composite"
   steps:
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: "1.6.4"
+    - name: Setup aqua
+      uses: ./.github/actions/aqua_setup
 
-    - name: "Set up Cloud SDK"
-      uses: "google-github-actions/setup-gcloud@v1"
-      with:
-        version: ">= 456.0.0"
-
-    - name: Set up Google Cloud
+    - name: Set up GCP credentials
       run: |
         echo $GCP_SA | base64 -d | jq > gcloud.json
-        gcloud auth activate-service-account --key-file=gcloud.json
         echo "GOOGLE_APPLICATION_CREDENTIALS=gcloud.json" >> $GITHUB_ENV
       shell: bash
 

@@ -67,9 +67,6 @@ jobs:
       - name: Setup Terraform
         uses: ./.github/actions/terraform_init
 
-      - name: Setup aqua
-        uses: ./.github/actions/aqua_setup
-
       - name: Set tfcmt env
         run: github-comment hide
 

@@ -22,5 +22,14 @@ jobs:
       - name: Setup Terraform
         uses: ./.github/actions/terraform_init
 
+      - name: Set tfcmt env
+        run: github-comment hide
+
+      - name: Set tfcmt env
+        run: |
+          if [ -z "${{ github.event.pull_request.number }}" ]; then
+            echo "PR_NUMBER=5" >> $GITHUB_ENV
+          fi
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: tfcmt apply -- terraform apply -auto-approve
