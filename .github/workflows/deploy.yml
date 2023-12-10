@@ -12,6 +12,7 @@ jobs:
 
     env:
       GCP_SA: ${{ secrets.GCP_SA }}
+      GITHUB_TOKEN: ${{ secrets.TFCMT_GITHUB_TOKEN }}
       BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
@@ -22,7 +23,7 @@ jobs:
       - name: Setup Terraform
         uses: ./.github/actions/terraform_init
 
-      - name: Set tfcmt env
+      - name: Minimize resolved terraform notifications
         run: github-comment hide
 
       - name: Set tfcmt env
