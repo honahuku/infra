@@ -33,3 +33,6 @@ override.tf.json
 .terraformrc
 terraform.rc
 .envrc
+.env
+**/*credential*
+**/gcloud.json
