@@ -43,7 +43,7 @@ jobs:
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
-      - uses: .github/workflows/terraform_init.yml
+      # - uses: .github/workflows/terraform_init.yml
 
       - name: Terraform fmt
         run: terraform fmt
@@ -57,7 +57,7 @@ jobs:
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
-      - uses: .github/workflows/terraform_init.yml
+      # - uses: .github/workflows/terraform_init.yml
 
       - name: Terraform Plan
         run: terraform plan
