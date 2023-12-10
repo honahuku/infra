@@ -67,7 +67,7 @@ jobs:
       - name: Setup Terraform
         uses: ./.github/actions/terraform_init
 
-      - name: Set tfcmt env
+      - name: Minimize resolved terraform notifications
         run: github-comment hide
 
       - name: Set tfcmt env
