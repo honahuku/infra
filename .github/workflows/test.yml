@@ -71,6 +71,9 @@ jobs:
         uses: ./.github/actions/aqua_setup
 
       - name: Set tfcmt env
+        run: github-comment hide
+
+      - name: Set tfcmt env
         run: |
           if [ -z "${{ github.event.pull_request.number }}" ]; then
             echo "PR_NUMBER=5" >> $GITHUB_ENV
