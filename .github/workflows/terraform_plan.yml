@@ -6,7 +6,35 @@ on:
       - main
 
 jobs:
-  terraform:
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: aquaproj/aqua-installer@v2.2.0
+        with:
+          aqua_version: v2.16.4
+
+      - name: Setup aqua tools
+        run: |
+          aqua i -l
+
+      - name: tflint
+        run: |
+          tflint --init
+          tflint
+
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup aqua
+        uses: ./.github/actions/aqua_setup
+      - name: trivy
+        run: |
+          trivy config ./
+
+  fmt:
     runs-on: ubuntu-latest
 
     env:
@@ -15,27 +43,21 @@ jobs:
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: .github/workflows/terraform_init.yml
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: "1.6.4"
+      - name: Terraform fmt
+        run: terraform fmt
 
-      - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v1"
-        with:
-          version: ">= 456.0.0"
+  plan:
+    runs-on: ubuntu-latest
 
-      - name: Set up Google Cloud
-        run: |
-          echo $GCP_SA | base64 -d | jq > gcloud.json
-          gcloud auth activate-service-account --key-file=gcloud.json
-          echo "GOOGLE_APPLICATION_CREDENTIALS=gcloud.json" >> $GITHUB_ENV
+    env:
+      GCP_SA: ${{ secrets.GCP_SA }}
+      BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
+      TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
-      - name: Terraform Init
-        run: terraform init -backend-config="bucket=${BUCKET_NAME}"
+    steps:
+      - uses: .github/workflows/terraform_init.yml
 
       - name: Terraform Plan
         run: terraform plan
