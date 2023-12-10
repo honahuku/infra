@@ -61,20 +61,6 @@ jobs:
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
-      - name: tfcmt env set
-        run: |
-          OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
-          REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-          if [ -z "${{ github.event.pull_request.number }}" ]; then
-            echo "PR_NUMBER=5" >> $GITHUB_ENV
-          else
-            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
-          fi
-
-      - name: env set
-        run: |
-          echo $PR_NUMBER
-          exit 2
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -84,6 +70,16 @@ jobs:
 
       - name: Setup aqua
         uses: ./.github/actions/aqua_setup
+
+      - name: Set tfcmt env
+        run: |
+          OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
+          REPO=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+          if [ -z "${{ github.event.pull_request.number }}" ]; then
+            echo "PR_NUMBER=5" >> $GITHUB_ENV
+          else
+            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          fi
 
       - name: Terraform Plan
         run: tfcmt -owner "$OWNER" -repo "$REPO" -pr "$PR_NUMBER" plan -- terraform plan
