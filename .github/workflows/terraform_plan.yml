@@ -9,7 +9,6 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
-# hoge
     env:
       GCP_SA: ${{ secrets.GCP_SA }}
       BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
