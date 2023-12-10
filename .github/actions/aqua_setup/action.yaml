@@ -8,5 +8,5 @@ runs:
         aqua_version: v2.16.4
 
     - name: Setup aqua tools
-      run: |
-        aqua i -l
+      run: aqua i -l
+      shell: bash
