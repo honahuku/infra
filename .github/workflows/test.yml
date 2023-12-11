@@ -42,7 +42,7 @@ jobs:
       TF_VAR_KUBE_CLIENT_KEY: ${{ secrets.TF_VAR_KUBE_CLIENT_KEY }}
       TF_VAR_KUBE_CLUSTER_CA_CERT: ${{ secrets.TF_VAR_KUBE_CLUSTER_CA_CERT }}
       TF_VAR_KUBE_HOST: ${{ secrets.TF_VAR_KUBE_HOST }}
-      TF_VAR_BUCKET_NAME: ${{ secrets.TF_VAR_TF_VAR_BUCKET_NAME }}
+      BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
@@ -62,7 +62,7 @@ jobs:
       GCP_SA: ${{ secrets.GCP_SA }}
       K8S_CONFIG: ${{ secrets.K8S_CONFIG }}
       GITHUB_TOKEN: ${{ secrets.TFCMT_GITHUB_TOKEN }}
-      TF_VAR_BUCKET_NAME: ${{ secrets.TF_VAR_TF_VAR_BUCKET_NAME }}
+      BUCKET_NAME: ${{ secrets.TF_VAR_BUCKET_NAME }}
       TF_VAR_PROJECT_NAME: ${{ secrets.TF_VAR_PROJECT_NAME }}
 
     steps:
