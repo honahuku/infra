@@ -32,7 +32,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-.envrc
 .env
 **/*credential*
 **/gcloud.json
