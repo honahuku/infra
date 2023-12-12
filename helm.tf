@@ -7,4 +7,14 @@ resource "helm_release" "argocd" {
   skip_crds        = true
   version          = "5.51.6"
   create_namespace = true
+
+  set {
+    name  = "configs.cm.create"
+    value = "true"
+  }
+
+  set {
+    name  = "configs.cm.kustomize.buildOptions"
+    value = "--enable-helm"
+  }
 }
