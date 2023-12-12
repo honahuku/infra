@@ -12,9 +12,4 @@ resource "helm_release" "argocd" {
     name  = "configs.cm.create"
     value = "true"
   }
-
-  set {
-    name  = "configs.cm.kustomize.buildOptions"
-    value = "--enable-helm"
-  }
 }
