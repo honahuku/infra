@@ -28,7 +28,11 @@ act --pull=false --secret-file .env -W .github/workflows/test.yml
 Docker Hub はレートリミットが厳しいので ghcr.io を使う  
 `~/.actrc` に以下を設定する  
 
-ghcr.io には予めログインしておく  
 ```bash
 -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest
+```
+
+ghcr.io にログインしていない場合は以下を実行  
+```bash
+cat ~/ghcr.txt | docker login ghcr.io -u honahuku --password-stdin
 ```
